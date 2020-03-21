@@ -1,0 +1,2 @@
+rootProject.name='PokePractice'
+include ':app'

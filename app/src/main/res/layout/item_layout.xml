@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/pokemonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="32sp"
+        android:layout_margin="16dp"
+        tools:text="Ivysaur"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/pokemonImage"/>
+
+    <TextView
+        android:id="@+id/pokemonColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:layout_margin="16dp"
+        tools:text="Blue"
+        app:layout_constraintStart_toEndOf="@id/pokemonImage"
+        app:layout_constraintTop_toBottomOf="@id/pokemonName"/>
+
+    <TextView
+        android:id="@+id/pokemonShape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:layout_margin="16dp"
+        tools:text="Circle"
+        app:layout_constraintStart_toEndOf="@id/pokemonColor"
+        app:layout_constraintTop_toBottomOf="@id/pokemonName"/>
+
+    <ImageView
+        android:id="@+id/pokemonImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
