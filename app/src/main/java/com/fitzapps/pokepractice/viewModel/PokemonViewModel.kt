@@ -1,4 +1,4 @@
-package com.fitzapps.pokepractice.viewmodel
+package com.fitzapps.pokepractice.viewModel
 
 
 import android.util.Log

@@ -1,12 +1,8 @@
-package com.fitzapps.pokepractice.viewmodel
+package com.fitzapps.pokepractice.viewModel
 
-import com.fitzapps.pokepractice.model.basic.PokemonBaseResponse
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito
-import java.util.*
 
 class PokemonViewModelTest {
 

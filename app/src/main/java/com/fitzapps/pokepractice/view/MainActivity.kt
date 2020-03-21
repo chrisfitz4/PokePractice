@@ -9,14 +9,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.fitzapps.pokepractice.R
 import com.fitzapps.pokepractice.databinding.ActivityMainBinding
 import com.fitzapps.pokepractice.view.adapter.PokemonRVAdapter
-import com.fitzapps.pokepractice.viewmodel.PokemonViewModel
+import com.fitzapps.pokepractice.viewModel.PokemonViewModel
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: PokemonViewModel
-    private val compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +28,4 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.getListOfPokemonInfo()
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.dispose()
-    }
-
 }

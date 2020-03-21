@@ -1,4 +1,4 @@
-package com.fitzapps.pokepractice.view.data_binding
+package com.fitzapps.pokepractice.view.dataBinding
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
