@@ -27,6 +27,7 @@ class PokemonViewModel : ViewModel() {
         val listIds = Transformations.map(listResults) { inputList ->
             inputList.map{input->
                 getNumberForPath(input.url)
+
             }
         }
         //get the PokemonInfo for each id
