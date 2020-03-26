@@ -26,6 +26,6 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding.lifecycleOwner = this
         activityMainBinding.pokemonAdapter = PokemonRVAdapter()
 
-        viewModel.getListOfPokemonInfo()
+        //viewModel.getListOfPokemonInfo()
     }
 }

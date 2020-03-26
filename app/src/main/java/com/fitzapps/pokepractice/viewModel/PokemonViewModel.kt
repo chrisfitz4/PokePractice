@@ -1,74 +1,45 @@
 package com.fitzapps.pokepractice.viewModel
 
-
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.fitzapps.pokepractice.model.PokemonInfo
-import com.fitzapps.pokepractice.model.basic.Result
+import com.fitzapps.pokepractice.model.basic.PokemonBaseResponse
 import com.fitzapps.pokepractice.network.PokemonRetrofit
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 
 //dataBinding and load image
 class PokemonViewModel : ViewModel() {
-    private val pokemonService = PokemonRetrofit().createService()
-    val pokemonInfo = MutableLiveData<List<PokemonInfo>>()
-
     private val myUrl = "https://img.pokemondb.net/artwork/large/bulbasaur.jpg"
-    private var disposable : Disposable? = null
+    private val pokemonService = PokemonRetrofit().createService()
 
-    fun getAllPokemon() = pokemonService.getAllPokemon()
-    fun getAPokemon(id: Int) = pokemonService.getPokemon(id)
+    val pokemonInfo : LiveData<List<PokemonInfo>> = MutableLiveData<List<PokemonInfo>>()
+    private val pokemonMediatorLiveData = MediatorLiveData<PokemonInfo>()
 
-    fun getListOfPokemonInfo() {
-        disposable = allPokemon().subscribe({successfulResponse->
-            pokemonInfo.postValue(successfulResponse)
-            disposable?.dispose()
-        }, {error->
-            Log.d("TAG_X","onError: ${error.message}")
-            disposable?.dispose()
-        })
+
+    suspend fun getAllPokemon() = pokemonService.getAllPokemon()
+    suspend fun getAPokemon(id: Int) = pokemonService.getPokemon(id)
+
+    private suspend fun allPokemon(): List<PokemonInfo> {
+        val allPokemon: LiveData<PokemonBaseResponse> = getAllPokemon()
+        //convert from PokemonBaseResponse to List<Result>
+        val listResults = Transformations.map(allPokemon){baseResponse->
+            baseResponse.results
+        }
+        //get the List<Int> of ids
+        val listIds = Transformations.map(listResults) { inputList ->
+            inputList.map{input->
+                getNumberForPath(input.url)
+            }
+        }
+        //get the PokemonInfo for each id
+        Transformations.map(listIds) { inputId: List<Int>->
+            for(id in inputId){
+                
+            }
+        }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        disposable?.dispose()
-    }
-
-    private fun allPokemon(): Single<List<PokemonInfo>> {
-        return getAllPokemon().subscribeOn(Schedulers.io())
-            //convert from PokemonBaseResponse to List<Result>
-            .map { input ->
-                Log.d("TAG_X", "map: ")
-                input.results
-            }
-            //convert from Observable<List<Result>> to a list of Observable<Result>
-            .flatMapIterable { input: List<Result> ->
-                Log.d("TAG_X", "flatMapIterable: ")
-                //convert the urls to the the ids
-                val ids = input.map {
-                    getNumberForPath(it.url)
-                }
-                ids
-            }
-            //convert from Observable<Int> to Observable<PokemonInfo>
-            .flatMap { id ->
-                aPokemon(id)
-            }
-            //compress the responses back to a single Observable<List<T>>
-            .toList()
-            .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    private fun aPokemon(id: Int): Observable<PokemonInfo> {
-        return getAPokemon(id).subscribeOn(Schedulers.io())
-            .map { input ->
-                PokemonInfo(input.name, input.color.name, input.shape.name, myUrl)
-            }
+    private suspend fun aPokemon(id: Int) : PokemonInfo {
+        val response = getAPokemon(id).await()
+        return PokemonInfo(response.name, response.color.name, response.shape.name, myUrl)
     }
 
     private fun getNumberForPath(url: String): Int {
