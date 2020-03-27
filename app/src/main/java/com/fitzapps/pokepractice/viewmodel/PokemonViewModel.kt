@@ -32,6 +32,8 @@ class PokemonViewModel : ViewModel() {
             Log.d("TAG_X","onError: ${error.message}")
             disposable?.dispose()
         })
+
+
     }
 
     override fun onCleared() {
