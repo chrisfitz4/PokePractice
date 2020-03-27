@@ -17,7 +17,7 @@ class PokemonViewModel : ViewModel() {
     suspend fun getAllPokemon() = pokemonService.getAllPokemon()
     suspend fun getAPokemon(id: Int) = pokemonService.getPokemon(id)
 
-    private suspend fun allPokemon(): List<PokemonInfo> {
+    private suspend fun allPokemon(): List<PokemonInfo>? {
         val allPokemon: LiveData<PokemonBaseResponse> = getAllPokemon()
         //convert from PokemonBaseResponse to List<Result>
         val listResults = Transformations.map(allPokemon){baseResponse->
@@ -35,6 +35,7 @@ class PokemonViewModel : ViewModel() {
                 
             }
         }
+        return null
     }
 
     private suspend fun aPokemon(id: Int) : PokemonInfo {
